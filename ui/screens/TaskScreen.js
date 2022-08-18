@@ -1,13 +1,21 @@
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
+import FloatingActionButton from "../components/buttons/FloatingActionButton";
 
 import RectButton from "../components/buttons/RectButton"
+import TaskList from "../components/lists/TaskList";
 
 
 export default function TaskScreen({ navigation }) {
     return (
-        <View>
-            <Text>This is the Task screen.</Text>
-            <RectButton title="+" onPress={() => navigation.navigate("New Task")} />
+        <View style={styles.screen}>
+            <TaskList navigation={navigation}/>
+            <FloatingActionButton title="+" onPress={() => navigation.navigate("New Task")} />
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    screen: {
+        height: '100%'
+    }
+});

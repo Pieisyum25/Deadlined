@@ -7,42 +7,74 @@ import RowContainer from '../containers/RowContainer';
 const DATA = [
     {
         id: "1",
-        subtaskName: "Subtask Name",
         taskName: "Task Name",
+        start: "DD/MM/YY",
+        daysUntilStart: 5,
         deadline: "DD/MM/YY",
-        daysLeft: 5
+        daysUntilDeadline: 11,
     },
     {
         id: "2",
-        subtaskName: "Subtask Name",
         taskName: "Task Name",
+        start: "DD/MM/YY",
+        daysUntilStart: -5,
         deadline: "DD/MM/YY",
-        daysLeft: 5
+        daysUntilDeadline: 6,
     },
     {
         id: "3",
-        subtaskName: "Subtask Name",
         taskName: "Task Name",
+        start: "DD/MM/YY",
+        daysUntilStart: 5,
         deadline: "DD/MM/YY",
-        daysLeft: 5
+        daysUntilDeadline: 11,
+    },
+    {
+        id: "4",
+        taskName: "Task Name",
+        start: "DD/MM/YY",
+        daysUntilStart: -5,
+        deadline: "DD/MM/YY",
+        daysUntilDeadline: 6,
+    },
+    {
+        id: "5",
+        taskName: "Task Name",
+        start: "DD/MM/YY",
+        daysUntilStart: 5,
+        deadline: "DD/MM/YY",
+        daysUntilDeadline: 11,
+    },
+    {
+        id: "6",
+        taskName: "Task Name",
+        start: "DD/MM/YY",
+        daysUntilStart: -5,
+        deadline: "DD/MM/YY",
+        daysUntilDeadline: 6,
     },
 ];
 
-export default function SubtaskList({ navigation }) {
+export default function TaskList({ navigation }) {
     function renderItem({ item }) {
+        let startDays = item.daysUntilStart;
+        let startDaysPrompt = "In " + startDays + " Days";
+        if (startDays < 0) {
+            startDays = Math.abs(startDays);
+            startDaysPrompt = startDays + " Days Ago"
+        }
         return (
             <View style={styles.itemContainer}>
-                <Text>{item.daysLeft + " Days Left (Deadline: " + item.deadline + ")"}</Text>
-                <Text>{item.subtaskName}</Text>
                 <Text>{item.taskName}</Text>
+                <Text>{"Start: " + startDaysPrompt + "   (" + item.start + ")"}</Text>
+                <Text>{"Deadline: In " + item.daysUntilDeadline + " Days   (" + item.deadline + ")"}</Text>
                 <RowContainer>
                     <RectButton
-                        title="Complete"
+                        title="Complete Subtask"
                         style={styles.buttonContainer}
-                        onPress={() => navigation.navigate("Subtask Complete")}
                     />
                     <RectButton
-                        title="Edit" 
+                        title="Edit"
                         style={styles.buttonContainer}
                     />
                 </RowContainer>

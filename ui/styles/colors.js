@@ -1,5 +1,6 @@
 export default {
     DARK: 'black',
     FADED: 'gray',
-    LIGHT: 'white'
+    LIGHT: 'white',
+    HIGHLIGHT: '#0055FF',
 }
