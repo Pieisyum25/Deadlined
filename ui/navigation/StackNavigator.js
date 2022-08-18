@@ -9,11 +9,7 @@ const rootRouteNames = [undefined, "Home", "Tasks", "Calendar"];
 
 export function HomeStackNavigator({ navigation, route }) {
 
-    useLayoutEffect(() => {
-        const routeName = getFocusedRouteNameFromRoute(route);
-        if (rootRouteNames.includes(routeName)) navigation.setOptions({tabBarStyle: {display: 'flex'}});
-        else navigation.setOptions({tabBarStyle: {display: 'none'}});
-    }, [navigation, route]);
+    useLayoutEffect(() => tabVisibilityLayoutEffect(navigation, route), [navigation, route]);
 
     return (
         <Stack.Navigator>
@@ -25,11 +21,7 @@ export function HomeStackNavigator({ navigation, route }) {
 
 export function TaskStackNavigator({ navigation, route }) {
     
-    useLayoutEffect(() => {
-        const routeName = getFocusedRouteNameFromRoute(route);
-        if (rootRouteNames.includes(routeName)) navigation.setOptions({tabBarStyle: {display: 'flex'}});
-        else navigation.setOptions({tabBarStyle: {display: 'none'}});
-    }, [navigation, route]);
+    useLayoutEffect(() => tabVisibilityLayoutEffect(navigation, route), [navigation, route]);
 
     return (
         <Stack.Navigator>
@@ -41,11 +33,7 @@ export function TaskStackNavigator({ navigation, route }) {
 
 export function CalendarStackNavigator({ navigation, route }) {
     
-    useLayoutEffect(() => {
-        const routeName = getFocusedRouteNameFromRoute(route);
-        if (rootRouteNames.includes(routeName)) navigation.setOptions({tabBarStyle: {display: 'flex'}});
-        else navigation.setOptions({tabBarStyle: {display: 'none'}});
-    }, [navigation, route]);
+    useLayoutEffect(() => tabVisibilityLayoutEffect(navigation, route), [navigation, route]);
 
     return (
         <Stack.Navigator>
@@ -53,4 +41,10 @@ export function CalendarStackNavigator({ navigation, route }) {
             <Stack.Screen name="Calendar Settings" component={CalendarSettingsScreen} />
         </Stack.Navigator>
     );
+}
+
+function tabVisibilityLayoutEffect(navigation, route) {
+    const routeName = getFocusedRouteNameFromRoute(route);
+    if (rootRouteNames.includes(routeName)) navigation.setOptions({tabBarStyle: {display: 'flex'}});
+    else navigation.setOptions({tabBarStyle: {display: 'none'}});
 }
