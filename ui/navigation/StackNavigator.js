@@ -27,6 +27,7 @@ export function TaskStackNavigator({ navigation, route }) {
         <Stack.Navigator>
             <Stack.Screen name="Tasks" component={TaskScreen} />
             <Stack.Screen name="New Task" component={NewTaskScreen} />
+            <Stack.Screen name="Subtask Complete" component={SubtaskCompleteScreen} />
         </Stack.Navigator>
     );
 }

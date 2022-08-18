@@ -72,6 +72,7 @@ export default function TaskList({ navigation }) {
                     <RectButton
                         title="Complete Subtask"
                         style={styles.buttonContainer}
+                        onPress={() => navigation.navigate("Subtask Complete")}
                     />
                     <RectButton
                         title="Edit"

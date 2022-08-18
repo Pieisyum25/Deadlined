@@ -9,25 +9,35 @@ export default function FloatingActionButton(props) {
         </Pressable>
     );
 };
-  
+
 const styles = StyleSheet.create({
     container: {
-        width: 60,
-        height: 60,
-        borderRadius: 30,
+        width: 56,
+        height: 56,
+        borderRadius: 28,
         paddingBottom: 3,
 
         position: "absolute",
-        bottom: 40,
-        right: 30,
+        bottom: 30,
+        right: 20,
 
         justifyContent: "center",
         alignItems: "center",
 
         backgroundColor: Colors.HIGHLIGHT,
+
+        shadowColor: Colors.BLACK,
+        shadowOffset: {
+            width: 2,
+            height: 5,
+        },
+        shadowOpacity: 0.75,
+        shadowRadius: 28,
+        elevation: 10,
     },
+
     title: {
         fontSize: 25,
-        color: "#fff",
+        color: Colors.LIGHT,
     },
 });

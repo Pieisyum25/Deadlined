@@ -6,7 +6,15 @@ const Tab = createBottomTabNavigator();
 
 export default function BottomTabNavigator() {
   return (
-    <Tab.Navigator screenOptions={{ headerShown: false }}>
+    <Tab.Navigator initialRouteName="Home Tab" screenOptions={{ headerShown: false }}>
+      <Tab.Screen
+        name="Calendar Tab"
+        component={CalendarStackNavigator}
+        options={{
+          tabBarLabel: "Calendar",
+          tabBarIcon: ({ color, size }) => <Ionicons name="calendar" color={color} size={size} />
+        }}
+      />
       <Tab.Screen
         name="Home Tab"
         component={HomeStackNavigator}
@@ -21,14 +29,6 @@ export default function BottomTabNavigator() {
         options={{
           tabBarLabel: "Tasks",
           tabBarIcon: ({ color, size }) => <Ionicons name="list" color={color} size={size} />
-        }}
-      />
-      <Tab.Screen
-        name="Calendar Tab"
-        component={CalendarStackNavigator}
-        options={{
-          tabBarLabel: "Calendar",
-          tabBarIcon: ({ color, size }) => <Ionicons name="calendar" color={color} size={size} />
         }}
       />
     </Tab.Navigator>
