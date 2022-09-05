@@ -11,10 +11,8 @@ export default function RowContainer(props) {
 
 const styles = StyleSheet.create({
     rowContainer: {
-        flex: 1,
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
-        alignContent: "center"
     }
 });

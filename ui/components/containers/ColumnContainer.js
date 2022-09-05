@@ -11,10 +11,8 @@ export default function ColumnContainer(props) {
 
 const styles = StyleSheet.create({
     columnContainer: {
-        flex: 1,
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        alignContent: "center"
     }
 });

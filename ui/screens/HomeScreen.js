@@ -1,5 +1,4 @@
 import { View, Text } from "react-native";
-
 import SubtaskList from "../components/lists/SubtaskList";
 
 
