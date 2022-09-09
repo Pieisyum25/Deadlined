@@ -1,5 +1,6 @@
 import { auth } from "../firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
+import { initDatabase } from "./DatabaseViewModel";
 
 
 export function register(email, password) {
@@ -25,7 +26,7 @@ export function logout(navigationCallback) {
     auth
         .signOut()
         .then(() => {
-            console.log("Logged out:" + email);
+            console.log("Logged out: " + email);
             navigationCallback();
         })
         .catch(error => alert(error.message));

@@ -2,6 +2,9 @@ import { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 import { ScrollView, TextInput } from "react-native-gesture-handler";
+import { useDispatch } from "react-redux";
+import { createTask, updateDatabase } from "../../logic/DatabaseViewModel";
+import { addTask } from "../../tasksSlice";
 import RectButton from "../components/buttons/RectButton"
 import InputContainer from "../components/containers/InputContainer";
 import RowContainer from "../components/containers/RowContainer";
@@ -20,10 +23,14 @@ const colors = [
 ]
 
 export default function NewTaskScreen({ navigation }) {
-
-    const [taskName, onChangeTaskName] = useState("");
-    const [taskReward, onChangeTaskReward] = useState("");
-    const [taskColour, onChangeTaskColour] = useState("white");
+    const dispatch = useDispatch();
+    
+    const [name, onChangeName] = useState("");
+    const [reward, onChangeReward] = useState("");
+    const [colour, onChangeColour] = useState("white");
+    const [startDate, onChangeStartDate] = useState("25/09/22");
+    const [endDate, onChangeEndDate] = useState("30/09/22");
+    const [subtasks, onChangeSubtasks] = useState([]);
 
     return (
         <View style={styles.screen}>
@@ -32,14 +39,14 @@ export default function NewTaskScreen({ navigation }) {
                     <TextInput
                         style={styles.textInput}
                         placeholder="Task Name"
-                        onChangeText={onChangeTaskName}
+                        onChangeText={onChangeName}
                     />
                 </InputContainer>
                 <InputContainer>
                     <TextInput
                         style={styles.textInput}
                         placeholder="Task Reward"
-                        onChangeText={onChangeTaskReward}
+                        onChangeText={onChangeReward}
                     />
                 </InputContainer>
 
@@ -49,7 +56,7 @@ export default function NewTaskScreen({ navigation }) {
                         data={colors}
                         labelField="label"
                         valueField="value"
-                        onChange={item => onChangeTaskColour(item.value)}
+                        onChange={item => onChangeColour(item.value)}
                     />
                 </InputContainer>
 
@@ -68,7 +75,7 @@ export default function NewTaskScreen({ navigation }) {
                 </InputContainer>
 
                 <Text>Subtasks:</Text>
-                
+
 
             </ScrollView>
 
@@ -81,7 +88,19 @@ export default function NewTaskScreen({ navigation }) {
                 <RectButton
                     title="Add"
                     style={styles.confirmationButton}
-                    onPress={() => navigation.navigate("Tasks")}
+                    onPress={() => {
+                        const newTask = {
+                            name: name || "New Task",
+                            reward: reward || "No Reward",
+                            colour: colour,
+                            startDate: startDate,
+                            endDate: endDate,
+                            subtasks: subtasks,
+                        };
+                        dispatch(addTask({ task: newTask }))
+                        updateDatabase();
+                        navigation.navigate("Tasks");
+                    }}
                 />
             </RowContainer>
         </View>

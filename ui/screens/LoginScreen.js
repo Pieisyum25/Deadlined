@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { auth } from '../../firebase'
 import { login, register } from '../../logic/AuthenticationViewModel'
+import { initDatabase } from '../../logic/DatabaseViewModel'
 
 export default function LoginScreen({ navigation }) {
     const [email, setEmail] = useState('')
@@ -10,6 +11,7 @@ export default function LoginScreen({ navigation }) {
     useEffect(() => {
       const unsubscribe = auth.onAuthStateChanged(user => {
         if (user) {
+            initDatabase();
             navigation.replace("Main");
         }
       });

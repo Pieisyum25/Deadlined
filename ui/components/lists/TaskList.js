@@ -1,84 +1,37 @@
 import { View, FlatList, StyleSheet, Text } from 'react-native';
+import { useSelector } from 'react-redux';
+import { selectTasks } from '../../../tasksSlice';
 import { Colors, Metrics } from '../../styles';
 import RectButton from '../buttons/RectButton';
 import RowContainer from '../containers/RowContainer';
 
 
-const DATA = [
-    {
-        id: "1",
-        taskName: "Task Name",
-        start: "DD/MM/YY",
-        daysUntilStart: 5,
-        deadline: "DD/MM/YY",
-        daysUntilDeadline: 11,
-    },
-    {
-        id: "2",
-        taskName: "Task Name",
-        start: "DD/MM/YY",
-        daysUntilStart: -5,
-        deadline: "DD/MM/YY",
-        daysUntilDeadline: 6,
-    },
-    {
-        id: "3",
-        taskName: "Task Name",
-        start: "DD/MM/YY",
-        daysUntilStart: 5,
-        deadline: "DD/MM/YY",
-        daysUntilDeadline: 11,
-    },
-    {
-        id: "4",
-        taskName: "Task Name",
-        start: "DD/MM/YY",
-        daysUntilStart: -5,
-        deadline: "DD/MM/YY",
-        daysUntilDeadline: 6,
-    },
-    {
-        id: "5",
-        taskName: "Task Name",
-        start: "DD/MM/YY",
-        daysUntilStart: 5,
-        deadline: "DD/MM/YY",
-        daysUntilDeadline: 11,
-    },
-    {
-        id: "6",
-        taskName: "Task Name",
-        start: "DD/MM/YY",
-        daysUntilStart: -5,
-        deadline: "DD/MM/YY",
-        daysUntilDeadline: 6,
-    },
-];
-
 export default function TaskList({ navigation }) {
+    const tasks = useSelector(selectTasks);
+
     function renderItem({ item }) {
-        let startDays = item.daysUntilStart;
-        let startDaysPrompt = "In " + startDays + " Days";
-        if (startDays < 0) {
-            startDays = Math.abs(startDays);
-            startDaysPrompt = startDays + " Days Ago"
-        }
         return (
             <View style={styles.itemContainer}>
-                <Text>{item.taskName}</Text>
-                <Text>{"Start: " + startDaysPrompt + "   (" + item.start + ")"}</Text>
-                <Text>{"Deadline: In " + item.daysUntilDeadline + " Days   (" + item.deadline + ")"}</Text>
-                <RowContainer>
-                    <RectButton
-                        title="Complete Subtask"
-                        style={styles.buttonContainer}
-                        onPress={() => navigation.navigate("Subtask Complete")}
-                    />
-                    <RectButton
-                        title="Edit"
-                        style={styles.buttonContainer}
-                    />
+                <RowContainer style={{ alignItems: "stretch" }}>
+                    <View style={{ width: 10, backgroundColor: item.colour }}/>
+                    <View style={{ flex: 1 }}>
+                        <Text>{item.name}</Text>
+                        <Text>{"Start: " + getDatePrompt(item.startDate) + "   (" + item.startDate + ")"}</Text>
+                        <Text>{"Deadline: " + getDatePrompt(item.endDate) + "   (" + item.endDate + ")"}</Text>
+                        <RowContainer>
+                            <RectButton
+                                title="Complete Subtask"
+                                style={styles.buttonContainer}
+                                onPress={() => navigation.navigate("Subtask Complete")}
+                            />
+                            <RectButton
+                                title="Edit"
+                                style={styles.buttonContainer}
+                            />
+                        </RowContainer>
+                    </View>
                 </RowContainer>
+
             </View>
         );
     }
@@ -87,12 +40,34 @@ export default function TaskList({ navigation }) {
         <View style={styles.listContainer}>
             <FlatList
                 contentContainerStyle={styles.list}
-                data={DATA}
+                data={tasks}
                 renderItem={renderItem}
-                keyExtractor={item => item.id}
+                keyExtractor={(item, index) => index.toString()}
             />
         </View>
     );
+}
+
+function getDatePrompt(keyDateString) {
+    const keyDate = stringToDate(keyDateString);
+    const currDate = new Date();
+    let days = Math.floor((keyDate.getTime() - currDate.getTime()) / (1000 * 60 * 60 * 24));
+
+    let prompt = "In " + days + " Days";
+    if (days == 0) {
+        prompt = "Today"
+    }
+    else if (days < 0) {
+        days = Math.abs(days);
+        prompt = days + " Days Ago"
+    }
+    return prompt
+}
+
+
+function stringToDate(dateString) {
+    const tokens = dateString.split('/');
+    return new Date("20" + tokens[2] + "/" + tokens[1] + "/" + tokens[0]);
 }
 
 const styles = StyleSheet.create({
