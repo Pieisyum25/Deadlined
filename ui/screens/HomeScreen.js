@@ -7,6 +7,7 @@ import RectButton from "../components/buttons/RectButton";
 import CardContainer from "../components/containers/CardContainer";
 import RowContainer from "../components/containers/RowContainer";
 import Heading from "../components/text/Heading";
+import Subheading from "../components/text/Subheading";
 
 
 export default function HomeScreen({ navigation }) {
@@ -16,7 +17,7 @@ export default function HomeScreen({ navigation }) {
     function subtaskListItem({ item }) {
         return (
             <CardContainer style={{ paddingTop: 0 }}>
-                <View style={[styles.colourStrip, { backgroundColor: item.task.colour }]}/>
+                <View style={[styles.colourStrip, { backgroundColor: item.task.colour }]} />
                 <View style={styles.deadlineContainer}>
                     <Text>{"Due " + getDatePrompt(item.endDate) + " (Deadline: " + item.endDate + ")"}</Text>
                 </View>
@@ -38,15 +39,24 @@ export default function HomeScreen({ navigation }) {
         );
     }
 
+    function emptyListItem() {
+        return (
+            <View style={{ alignItems: "center" }}>
+                <Subheading>All Goals Completed!</Subheading>
+            </View>
+        );
+    }
+
     return (
         <View>
             <ScrollView>
                 <Heading style={{ margin: 10 }}>Your Goals for Today:</Heading>
-                <CardContainer style={{ margin: 0, paddingHorizontal: 0, paddingTop: 15, paddingBottom: 30, }}>
+                <CardContainer style={{ margin: 0, paddingHorizontal: 0, paddingTop: 15, paddingBottom: 20, }}>
                     <FlatList
                         data={currentSubtasks}
                         renderItem={subtaskListItem}
                         keyExtractor={(item, index) => index.toString()}
+                        ListEmptyComponent={emptyListItem}
                     />
                 </CardContainer>
             </ScrollView>

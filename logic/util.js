@@ -133,7 +133,7 @@ export function getSubtaskDays(task) {
     let startDay = 0;
     let endDay = 0;
     let dayOverflow = 0.0;
-    for (let subtaskIndex = 0; subtaskIndex < task.subtasks.length; subtaskIndex++) {
+    for (let subtaskIndex = 0; subtaskIndex < task.subtasks.length-1; subtaskIndex++) {
         startDay = endDay;
 
         const subtask = task.subtasks[subtaskIndex];
@@ -147,6 +147,7 @@ export function getSubtaskDays(task) {
 
         days.push(endDay-startDay);
     }
+    days.push(taskDays-endDay);
 
     return days;
 }

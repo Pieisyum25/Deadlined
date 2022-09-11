@@ -19,10 +19,11 @@ export default function TaskScreen({ navigation }) {
 
         function SubtaskItem({ subtask }) {
             const days = subtaskDays[subtask.index];
+            const opacity = (subtask.item.completed) ? 0.3 : 1.0;
 
             return (
                 <View>
-                    <RowContainer style={styles.spacedRowContainer}>
+                    <RowContainer style={[styles.spacedRowContainer, { opacity: opacity }]}>
                         <Text>{subtask.item.name}</Text>
                         <Text>{subtask.item.weight} ({days + " " + (days == 1 ? "Day" : "Days")})</Text>
                     </RowContainer>
@@ -31,15 +32,17 @@ export default function TaskScreen({ navigation }) {
         }
 
         return (
-            <CardContainer style={{ paddingLeft: 0 }}>
+            <CardContainer style={{ paddingLeft: 0, paddingTop: 0 }}>
                 <RowContainer style={{ alignItems: "stretch" }}>
                     <View style={[styles.colourStrip, { backgroundColor: task.item.colour }]} />
-                    <View style={{ flex: 1 }}>
-                        <Text>{task.item.name}</Text>
+                    <View style={{ flex: 1, paddingTop: 3 }}>
+                        <View style={styles.taskNameContainer}>
+                            <Text>{task.item.name}</Text>
+                        </View>
                         <Text>{"Start: " + getDatePrompt(task.item.startDate) + "   (" + task.item.startDate + ")"}</Text>
                         <Text>{"Deadline: " + getDatePrompt(task.item.endDate) + "   (" + task.item.endDate + ")"}</Text>
-                        {task.item.subtasks.length > 0 && <View>
-                            <RowContainer style={styles.spacedRowContainer}>
+                        {task.item.subtasks.length > 0 && <View style={{ marginHorizontal: 10, marginTop: 5 }}>
+                            <RowContainer style={styles.subtaskListHeadingContainer}>
                                 <Text>Subtask:</Text>
                                 <Text>Weight:</Text>
                             </RowContainer>
@@ -99,6 +102,21 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 5,
         borderBottomRightRadius: 5,
         marginRight: 5,
+        marginTop: 8,
+    },
+    taskNameContainer: {
+        paddingLeft: 5,
+        paddingBottom: 2,
+        marginBottom: 5,
+        borderBottomColor: "black",
+        borderBottomWidth: 2,
+    },
+    subtaskListHeadingContainer: {
+        justifyContent: "space-between",
+        paddingBottom: 2,
+        marginBottom: 4,
+        borderBottomColor: "black",
+        borderBottomWidth: 2,
     },
     spacedRowContainer: {
         justifyContent: "space-between",

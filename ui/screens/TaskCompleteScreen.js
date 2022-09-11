@@ -5,6 +5,7 @@ import { removeTask, selectTask } from "../../logic/StateViewModel";
 
 import RectButton from "../components/buttons/RectButton"
 import RowContainer from "../components/containers/RowContainer";
+import Heading from "../components/text/Heading";
 
 
 export default function TaskCompleteScreen({ route, navigation }) {
@@ -22,35 +23,64 @@ export default function TaskCompleteScreen({ route, navigation }) {
     }
 
     return (
-        <View>
+        <View style={styles.screen}>
             <ScrollView>
-                <Text>Incredible! You've completed:</Text>
-                <Text>{task.name}</Text>
-                <View style={styles.listContainer}>
-                    <FlatList
-                        contentContainerStyle={styles.list}
-                        data={task.subtasks}
-                        renderItem={subtaskListItem}
-                        keyExtractor={(item, index) => index.toString()}
-                    />
+                <View style={styles.messageContainer}>
+                    <Text style={styles.message}>Incredible! You've completed:</Text>
+                    <View style={styles.message}>
+                        <Heading>{task.name}</Heading>
+                        <View style={styles.listContainer}>
+                            <FlatList
+                                contentContainerStyle={styles.list}
+                                data={task.subtasks}
+                                renderItem={subtaskListItem}
+                                keyExtractor={(item, index) => index.toString()}
+                            />
+                        </View>
+                    </View>
+                    <Text style={styles.message}>You've definitely earned:</Text>
+                    <Heading style={styles.message}>{task.reward}</Heading>
                 </View>
-                <Text>You've definitely earned:</Text>
-                <Text>{task.reward}</Text>
-                <Text>Great job!</Text>
-                <RowContainer>
-                    <RectButton
-                        title="Done"
-                        onPress={() => {
-                            dispatch(removeTask({ taskIndex: taskIndex }));
-                            navigation.goBack();
-                        }}
-                    />
-                </RowContainer>
+                <View style={styles.congratulationContainer}>
+                    <Heading>Great job!</Heading>
+                </View>
             </ScrollView>
+
+            <RowContainer style={styles.confirmationButtonContainer}>
+                <RectButton style={styles.confirmationButton} title="Cancel" onPress={() => navigation.goBack()} />
+                <RectButton
+                    style={styles.confirmationButton}
+                    title="Done"
+                    onPress={() => {
+                        dispatch(removeTask({ taskIndex: taskIndex }));
+                        navigation.goBack();
+                    }}
+                />
+            </RowContainer>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
-
+    screen: {
+        flex: 1,
+        justifyContent: 'space-between',
+    },
+    messageContainer: {
+        padding: 20,
+    },
+    message: {
+        marginBottom: 10,
+    },
+    congratulationContainer: {
+        alignItems: "center",
+        paddingBottom: 20,
+    },
+    confirmationButtonContainer: {
+        margin: 10,
+    },
+    confirmationButton: {
+        margin: 5,
+        flex: 1,
+    },
 });
