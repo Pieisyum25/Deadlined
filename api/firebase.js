@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
+import RNIsDeviceRooted from "react-native-is-device-rooted";
 import { initTasks } from "../logic/StateViewModel";
 import store from "./store";
 
@@ -23,9 +24,14 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth();
 const db = getFirestore(app);
 
+// Returns true if the device is not rooted/jail-broken and the device has a screen lock:
+function securityCheckPassed() {
+  return (!RNIsDeviceRooted.isDeviceRooted() && RNIsDeviceRooted.isDeviceLocked());
+}
 
 // Creates a new user with the given email and password:
 export function registerUser(email, password) {
+  if (!securityCheckPassed()) return;
   createUserWithEmailAndPassword(auth, email, password)
     .then(userCredentials => {
         const user = userCredentials.user;
@@ -36,6 +42,7 @@ export function registerUser(email, password) {
 
 // Logs in a user using the given email and password:
 export function loginUser(email, password) {
+  if (!securityCheckPassed()) return;
   signInWithEmailAndPassword(auth, email, password)
   .then(userCredentials => {
       const user = userCredentials.user;
