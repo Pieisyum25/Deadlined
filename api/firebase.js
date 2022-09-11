@@ -1,6 +1,8 @@
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
+import { initTasks } from "../logic/StateViewModel";
+import store from "./store";
 
 
 const firebaseConfig = {
@@ -16,4 +18,63 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth();
-export const db = getFirestore(app);
+const db = getFirestore(app);
+
+
+export function registerUser(email, password) {
+  createUserWithEmailAndPassword(auth, email, password)
+    .then(userCredentials => {
+        const user = userCredentials.user;
+        console.log("Registered: " + user.email);
+    })
+    .catch(error => alert(error.message));
+}
+
+export function loginUser(email, password) {
+  signInWithEmailAndPassword(auth, email, password)
+  .then(userCredentials => {
+      const user = userCredentials.user;
+      console.log("Logged in: " + user.email);
+  })
+  .catch(error => alert(error.message));
+}
+
+export function logoutUser(navigationCallback) {
+  const email = auth.currentUser?.email;
+  auth
+      .signOut()
+      .then(() => {
+          console.log("Logged out: " + email);
+          navigationCallback();
+      })
+      .catch(error => alert(error.message));
+}
+
+
+let docRef = "";
+
+export function getUserData() {
+  if (!docRef) docRef = doc(db, "users", auth.currentUser?.email);
+  console.log("Checking for user data...");
+  getDoc(docRef)
+    .then(docSnap => {
+      if (docSnap.exists()) {
+        console.log("Document retrieved.");
+        store.dispatch(initTasks({ tasks: docSnap.data().tasks }));
+      }
+      else {
+        console.log("Document does not exist.");
+        setUserData(true);
+      }
+    })
+    .catch(error => alert(error.message));
+}
+
+export function setUserData(created) {
+  setDoc(docRef, { tasks: store.getState().tasks })
+    .then(() => {
+      if (created) console.log("Document created.");
+      else console.log("Document updated.");
+    })
+    .catch(error => alert(error.message));
+}
