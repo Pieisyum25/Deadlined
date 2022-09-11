@@ -1,6 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { CalendarStackNavigator, HomeStackNavigator, TaskStackNavigator } from "./StackNavigator";
+import { CalendarStackNavigator, HomeStackNavigator, TaskStackNavigator } from "./MainStackNavigator";
+
 
 const Tab = createBottomTabNavigator();
 

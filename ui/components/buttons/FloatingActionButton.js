@@ -1,5 +1,4 @@
 import { Pressable, StyleSheet, Text } from "react-native";
-import { Colors } from "../../styles";
 
 
 export default function FloatingActionButton(props) {
@@ -24,9 +23,9 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
 
-        backgroundColor: Colors.HIGHLIGHT,
+        backgroundColor: "#0055FF",
 
-        shadowColor: Colors.BLACK,
+        shadowColor: "black",
         shadowOffset: {
             width: 2,
             height: 5,
@@ -38,6 +37,6 @@ const styles = StyleSheet.create({
 
     title: {
         fontSize: 25,
-        color: Colors.LIGHT,
+        color: "white",
     },
 });

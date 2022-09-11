@@ -1,12 +1,11 @@
-import { Button, StyleSheet, View } from 'react-native';
-import { Colors } from '../../styles/index'
+import { Button, View } from 'react-native';
 
 
 export default function (props) {
     return (
         <View style={props.style}>
             <Button
-                color={Colors.DARK}
+                color="black"
                 title={props.title}
                 onPress={props.onPress}
             />

@@ -1,7 +1,7 @@
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { auth, db } from "../firebase";
-import store from "../store";
-import { initTasks } from "../tasksSlice";
+import { auth, db } from "../api/firebase";
+import store from "../api/store";
+import { initTasks } from "./StateViewModel";
 
 
 let docRef = "";

@@ -1,6 +1,5 @@
-import { auth } from "../firebase";
+import { auth } from "../api/firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
-import { initDatabase } from "./DatabaseViewModel";
 
 
 export function register(email, password) {

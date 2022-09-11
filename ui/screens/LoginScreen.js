@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import { auth } from '../../firebase'
+import { auth } from '../../api/firebase'
 import { login, register } from '../../logic/AuthenticationViewModel'
 import { initDatabase } from '../../logic/DatabaseViewModel'
 

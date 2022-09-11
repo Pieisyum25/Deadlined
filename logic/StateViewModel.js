@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import produce from "immer";
+import { getCurrentSubtask, getCurrentSubtasks } from "./util";
 
 
-export const tasksSlice = createSlice({
+const tasksSlice = createSlice({
     name: 'tasks',
     initialState: [],
     reducers: {
@@ -18,10 +18,12 @@ export const tasksSlice = createSlice({
     }
 });
 
-export default tasksSlice.reducer;
+export const tasksReducer = tasksSlice.reducer;
 export const { initTasks, addTask, updateTask, removeTask, addSubtask, updateSubtask, removeSubtask } = tasksSlice.actions;
 
 export const selectTasks = state => state.tasks;
-export const selectTask = action => state => state.tasks[action.payload.taskIndex];
-export const selectTaskSubtasks = action => state => state.tasks[action.payload.taskIndex].subtasks;
-export const selectSubtask = action => state => state.tasks[action.payload.taskIndex].subtasks[action.payload.subtaskIndex];
+export const selectTask = payload => state => state.tasks[payload.taskIndex];
+export const selectTaskSubtasks = payload => state => state.tasks[payload.taskIndex].subtasks;
+export const selectTaskSubtask = payload => state => state.tasks[payload.taskIndex].subtasks[payload.subtaskIndex];
+export const selectCurrentSubtasks = state => getCurrentSubtasks(state.tasks);
+export const selectCurrentSubtask = payload => state => getCurrentSubtask(state.tasks[payload.taskIndex]);

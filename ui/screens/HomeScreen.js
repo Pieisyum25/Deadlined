@@ -1,12 +1,77 @@
-import { View, Text } from "react-native";
-import SubtaskList from "../components/lists/SubtaskList";
+import { View, Text, StyleSheet } from "react-native";
+import { FlatList, ScrollView } from "react-native-gesture-handler";
+import { useSelector } from "react-redux";
+import { selectCurrentSubtasks } from "../../logic/StateViewModel";
+import { getDatePrompt } from "../../logic/util";
+import RectButton from "../components/buttons/RectButton";
+import CardContainer from "../components/containers/CardContainer";
+import RowContainer from "../components/containers/RowContainer";
+import Heading from "../components/text/Heading";
 
 
 export default function HomeScreen({ navigation }) {
+
+    const currentSubtasks = useSelector(selectCurrentSubtasks);
+
+    function subtaskListItem({ item }) {
+        return (
+            <CardContainer style={{ paddingTop: 0 }}>
+                <View style={[styles.colourStrip, { backgroundColor: item.task.colour }]}/>
+                <View style={styles.deadlineContainer}>
+                    <Text>{"Due " + getDatePrompt(item.endDate) + " (Deadline: " + item.endDate + ")"}</Text>
+                </View>
+                <Text>{item.subtask.name}</Text>
+                <Text>{item.task.name}</Text>
+                <RowContainer style={styles.buttonRowContainer}>
+                    <RectButton
+                        title="Complete"
+                        style={styles.button}
+                        onPress={() => navigation.navigate("Subtask Complete", { taskIndex: item.taskIndex, subtaskIndex: item.subtaskIndex, })}
+                    />
+                    <RectButton
+                        title="Edit"
+                        style={styles.button}
+                        onPress={() => navigation.navigate("Edit Subtask", { newSubtask: false, taskIndex: item.taskIndex, subtaskIndex: item.subtaskIndex })}
+                    />
+                </RowContainer>
+            </CardContainer>
+        );
+    }
+
     return (
         <View>
-            <Text>Your Goals for Today:</Text>
-            <SubtaskList navigation={navigation} />
+            <ScrollView>
+                <Heading style={{ margin: 10 }}>Your Goals for Today:</Heading>
+                <CardContainer style={{ margin: 0, paddingHorizontal: 0, paddingTop: 15, paddingBottom: 30, }}>
+                    <FlatList
+                        data={currentSubtasks}
+                        renderItem={subtaskListItem}
+                        keyExtractor={(item, index) => index.toString()}
+                    />
+                </CardContainer>
+            </ScrollView>
         </View>
-    )
+    );
 }
+
+const styles = StyleSheet.create({
+    colourStrip: {
+        height: 10,
+        borderBottomLeftRadius: 5,
+        borderBottomRightRadius: 5,
+        marginBottom: 2,
+    },
+    deadlineContainer: {
+        alignItems: "center",
+        paddingBottom: 2,
+        marginBottom: 5,
+        borderBottomColor: "black",
+        borderBottomWidth: 2,
+    },
+    buttonRowContainer: {
+        marginTop: 10,
+    },
+    button: {
+        marginHorizontal: 3,
+    },
+});

@@ -1,7 +1,6 @@
-
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { logout } from '../../logic/AuthenticationViewModel'
-import { auth } from '../../firebase'
+import { auth } from '../../api/firebase'
 
 
 export default function SettingsScreen({ navigation }) {
