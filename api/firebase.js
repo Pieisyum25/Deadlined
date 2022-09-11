@@ -74,8 +74,9 @@ export function logoutUser(navigationCallback) {
 
 let docRef = "";
 
+// Gets user data from the firestore database:
 export function getUserData() {
-  if (!docRef) docRef = doc(db, "users", auth.currentUser?.email);
+  docRef = doc(db, "users", auth.currentUser?.email);
   console.log("Checking for user data...");
   getDoc(docRef)
     .then(docSnap => {
@@ -91,6 +92,7 @@ export function getUserData() {
     .catch(error => alert(error.message));
 }
 
+// Sets user data on the firestore database:
 export function setUserData(created) {
   setDoc(docRef, { tasks: store.getState().tasks })
     .then(() => {
