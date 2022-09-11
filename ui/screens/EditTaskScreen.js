@@ -11,6 +11,7 @@ import InputContainer from "../components/containers/InputContainer";
 import RowContainer from "../components/containers/RowContainer";
 
 
+// Colours used in the dropdown menu:
 const colors = [
     { label: "White", value: "white" },
     { label: "Black", value: "black" },
@@ -24,8 +25,10 @@ const colors = [
 ]
 
 
+// EditTaskScreen for editing the properties of the selected task:
 export default function EditTaskScreen({ route, navigation }) {
 
+    // Task properties and state:
     const { newTask, taskIndex } = route.params;
     const task = useSelector(selectTask({ taskIndex: taskIndex }));
     const subtasks = useSelector(selectTaskSubtasks({ taskIndex: taskIndex }));
@@ -38,18 +41,21 @@ export default function EditTaskScreen({ route, navigation }) {
     const [endDateText, onChangeEndDateText] = useState(task.endDate);
     const dispatch = useDispatch();
 
+    // Updates startDate to the TextInput's text if it is a valid date:
     function onSubmitStartDateTextInput() {
         const date = stringToDate(startDateText);
         if (date && date.getTime() <= stringToDate(endDate).getTime()) onChangeStartDate(startDateText);
         else onChangeStartDateText(startDate);
     }
 
+    // Updates endDate to the TextInput's text if it is a valid date:
     function onSubmitEndDateTextInput() {
         const date = stringToDate(endDateText);
         if (date && date.getTime() >= stringToDate(startDate).getTime()) onChangeEndDate(endDateText);
         else onChangeEndDateText(endDate);
     }
 
+    // Returns an item to be displayed in the subtask list:
     function subtaskListItem(subtask) {
         const item = subtask.item;
         const opacity = (item.completed) ? 0.3 : 1.0;

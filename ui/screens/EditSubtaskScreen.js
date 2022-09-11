@@ -12,8 +12,10 @@ import InputContainer from "../components/containers/InputContainer";
 import RowContainer from "../components/containers/RowContainer";
 
 
+// EditSubtaskScreen for editing the properties of the selected subtask:
 export default function EditSubtaskScreen({ route, navigation }) {
 
+    // Subtask properties and state:
     const { newSubtask, taskIndex, subtaskIndex } = route.params;
     const subtask = useSelector(selectTaskSubtask({ taskIndex: taskIndex, subtaskIndex: subtaskIndex }));
     const [name, onChangeName] = useState((newSubtask) ? "" : subtask.name);
@@ -23,6 +25,7 @@ export default function EditSubtaskScreen({ route, navigation }) {
     const [completed, onChangeCompleted] = useState(subtask.completed);
     const dispatch = useDispatch();
 
+    // Ensures the weight entered via the TextInput is valid before setting it:
     function onSubmitWeightTextInput() {
         let value = parseFloat(weightText);
         if (isNaN(value)) {
@@ -35,6 +38,7 @@ export default function EditSubtaskScreen({ route, navigation }) {
         onChangeWeightText("" + value);
     }
 
+    // Updates the current weight and text in the TextInput to the slider's value:
     function onChangeWeightSlider(value) {
         onChangeWeight(value);
         onChangeWeightText(value);

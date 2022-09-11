@@ -1,6 +1,7 @@
 import { StyleSheet, View } from "react-native";
 
 
+// A view that mimics a CardView commonly used in Android:
 export default function CardContainer(props) {
     return (
         <View style={[styles.cardContainer, props.style]}>

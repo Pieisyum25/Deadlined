@@ -3,6 +3,7 @@ import { logout } from '../../logic/AuthenticationViewModel'
 import { auth } from '../../api/firebase'
 
 
+// SettingsScreen allows the user to logout and go back to the LoginScreen:
 export default function SettingsScreen({ navigation }) {
     return (
         <View style={styles.container}>

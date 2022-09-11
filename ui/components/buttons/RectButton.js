@@ -1,6 +1,6 @@
 import { Button, View } from 'react-native';
 
-
+// A black rectangular button:
 export default function (props) {
     return (
         <View style={props.style}>

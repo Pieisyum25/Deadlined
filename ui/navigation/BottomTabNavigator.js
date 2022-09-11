@@ -2,9 +2,11 @@ import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { CalendarStackNavigator, HomeStackNavigator, TaskStackNavigator } from "./MainStackNavigator";
 
-
+// Navigator used for managing the tabs:
 const Tab = createBottomTabNavigator();
 
+
+// BottomTabNavigator with three tabs (Calendar, Home, Tasks) separating the app's main content/functionality into 3 categories:
 export default function BottomTabNavigator() {
   return (
     <Tab.Navigator initialRouteName="Home Tab" screenOptions={{ headerShown: false }}>

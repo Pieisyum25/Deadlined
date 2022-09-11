@@ -12,10 +12,15 @@ import CalendarScreen from "../screens/CalendarScreen";
 import CalendarSettingsScreen from "../screens/CalendarSettingsScreen";
 import TaskCompleteScreen from "../screens/TaskCompleteScreen";
 
+// MainStackNavigator contains the three main StackNavigators, each used in a tab in BottomTabNavigator:
 
+// Navigator for managing all the StackNavigators:
 const Stack = createNativeStackNavigator();
+// Route names of the main screen of each stack, used for knowing when tabs should be shown:
 const rootRouteNames = [undefined, "Home", "Tasks", "Calendar"];
 
+
+// HomeStackNavigator holds screens used in the Home tab:
 export function HomeStackNavigator({ navigation, route }) {
 
     useLayoutEffect(() => tabVisibilityLayoutEffect(navigation, route), [navigation, route]);
@@ -31,6 +36,7 @@ export function HomeStackNavigator({ navigation, route }) {
     );
 }
 
+// TaskStackNavigator holds screens used in the Tasks tab:
 export function TaskStackNavigator({ navigation, route }) {
 
     useLayoutEffect(() => tabVisibilityLayoutEffect(navigation, route), [navigation, route]);
@@ -47,6 +53,8 @@ export function TaskStackNavigator({ navigation, route }) {
     );
 }
 
+
+// CalendarStackNavigator holds screens used in the Calendar tab:
 export function CalendarStackNavigator({ navigation, route }) {
 
     useLayoutEffect(() => tabVisibilityLayoutEffect(navigation, route), [navigation, route]);
@@ -60,12 +68,15 @@ export function CalendarStackNavigator({ navigation, route }) {
     );
 }
 
+
+// A layout effect used by all the StackNavigators to only show the bottom tab bar when on one of the main 3 screens:
 function tabVisibilityLayoutEffect(navigation, route) {
     const routeName = getFocusedRouteNameFromRoute(route);
     if (rootRouteNames.includes(routeName)) navigation.setOptions({ tabBarStyle: { display: 'flex' } });
     else navigation.setOptions({ tabBarStyle: { display: 'none' } });
 }
 
+// A settings button added to the 3 main screens' headers to allow access to the settings screen:
 const optionsAddSettingsButton = ({ navigation }) => ({
     headerRight: () =>
         <Ionicons

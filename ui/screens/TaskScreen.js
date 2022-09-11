@@ -9,14 +9,22 @@ import CardContainer from "../components/containers/CardContainer";
 import RowContainer from "../components/containers/RowContainer";
 
 
+// TaskScreen shows the user a list of all their tasks and their properties:
 export default function TaskScreen({ navigation }) {
+
+    // State of all tasks:
     const tasks = useSelector(selectTasks);
     const dispatch = useDispatch();
 
+    // Returns an item representing a particular task in the list of all tasks:
     function TaskItem({ task }) {
+
+        // State of the task's current incomplete subtask (if there is one) and how many
+        // days each subtask has been allocated:
         const currSubtask = useSelector(selectCurrentSubtask({ taskIndex: task.index }));
         const subtaskDays = getSubtaskDays(task.item);
 
+        // Returns an item representing a particular subtask within a task:
         function SubtaskItem({ subtask }) {
             const days = subtaskDays[subtask.index];
             const opacity = (subtask.item.completed) ? 0.3 : 1.0;

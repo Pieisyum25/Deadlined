@@ -10,10 +10,13 @@ import Heading from "../components/text/Heading";
 import Subheading from "../components/text/Subheading";
 
 
+// Homescreen displays a list of all current subtasks that should be worked on today:
 export default function HomeScreen({ navigation }) {
 
+    // Array of current subtasks:
     const currentSubtasks = useSelector(selectCurrentSubtasks);
 
+    // Returns an item representing a current subtask to be displayed in the subtask list:
     function subtaskListItem({ item }) {
         return (
             <CardContainer style={{ paddingTop: 0 }}>
@@ -39,6 +42,7 @@ export default function HomeScreen({ navigation }) {
         );
     }
 
+    // Returns an item to be displayed if there are no current subtasks:
     function emptyListItem() {
         return (
             <View style={{ alignItems: "center" }}>

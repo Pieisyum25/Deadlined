@@ -2,18 +2,20 @@ import { View, Text, StyleSheet } from "react-native";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
 import { useDispatch, useSelector } from "react-redux";
 import { removeTask, selectTask } from "../../logic/StateViewModel";
-
 import RectButton from "../components/buttons/RectButton"
 import RowContainer from "../components/containers/RowContainer";
 import Heading from "../components/text/Heading";
 
 
+// TaskCompleteScreen congratulates the user for completing a task:
 export default function TaskCompleteScreen({ route, navigation }) {
 
+    // Task properties and state:
     const { taskIndex } = route.params;
     const task = useSelector(selectTask({ taskIndex: taskIndex }));
     const dispatch = useDispatch();
 
+    // Returns an item representing a subtask to be displayed in the list of subtasks:
     function subtaskListItem({ item }) {
         return (
             <View style={styles.itemContainer}>

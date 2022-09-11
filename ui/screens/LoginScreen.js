@@ -3,26 +3,39 @@ import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, Vi
 import { auth } from '../../api/firebase'
 import { login, register } from '../../logic/AuthenticationViewModel'
 import { initDatabase } from '../../logic/DatabaseViewModel'
+import RectButton from '../components/buttons/RectButton'
+import Heading from '../components/text/Heading'
 
+
+// LoginScreen allows the user login or register via an email and password:
 export default function LoginScreen({ navigation }) {
+
+    // Credential state:
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
+    // An effect that initialises the user's data and gives access to the rest of the app once the user
+    // has registered or logged in:
     useEffect(() => {
-      const unsubscribe = auth.onAuthStateChanged(user => {
-        if (user) {
-            initDatabase();
-            navigation.replace("Main");
-        }
-      });
-      return unsubscribe;
+        const unsubscribe = auth.onAuthStateChanged(user => {
+            if (user) {
+                initDatabase();
+                navigation.replace("Main");
+            }
+        });
+        return unsubscribe;
     }, []);
+
 
     return (
         <KeyboardAvoidingView
             style={styles.container}
             behavior="height"
         >
+            <View style={{ paddingHorizontal: 50, paddingVertical: 10, margin: 30, borderBottomColor: "black", borderBottomWidth: 2, }}>
+                <Heading>Deadlined</Heading>
+            </View>
+
             <View style={styles.inputContainer}>
                 <TextInput
                     placeholder='Email'
@@ -40,19 +53,16 @@ export default function LoginScreen({ navigation }) {
             </View>
 
             <View style={styles.buttonContainer}>
-                <TouchableOpacity
-                    onPress={() => login(email, password)}
+                <RectButton
                     style={styles.button}
-                >
-                    <Text style={styles.buttonText}>Login</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
+                    title="Login"
+                    onPress={() => login(email, password)}
+                />
+                <RectButton
+                    style={styles.button}
+                    title="Register"
                     onPress={() => register(email, password)}
-                    style={[styles.button, styles.buttonOutline]}
-                >
-                    <Text style={styles.buttonOutlineText}>Register</Text>
-                </TouchableOpacity>
+                />
             </View>
         </KeyboardAvoidingView>
     )
@@ -76,16 +86,11 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         width: '60%',
-        justifyContent: 'center',
-        alignItems: 'center',
         marginTop: 40,
     },
     button: {
-        backgroundColor: '#0782F9',
-        width: '100%',
-        padding: 15,
-        borderRadius: 10,
-        alignItems: 'center',
+        flex: 1,
+        margin: 5,
     },
     buttonText: {
         color: 'white',

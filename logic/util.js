@@ -1,5 +1,8 @@
 
+// Miscellaneous functions used throughout the UI, often used to manipulate the task data in the Redux store:
 
+
+// Creates a task with the given values or default values:
 export function createTask(name, reward, colour, startDate, endDate, subtasks) {
     return {
         name: name || "Task",
@@ -11,6 +14,7 @@ export function createTask(name, reward, colour, startDate, endDate, subtasks) {
     };
 }
 
+// Creates a subtask with the given values or default values:
 export function createSubtask(name, reward, weight, completed){
     return {
         name: name || "Subtask",
@@ -20,6 +24,7 @@ export function createSubtask(name, reward, weight, completed){
     }
 }
 
+// Creates a prompt describing the keyDate's relation to the current date:
 export function getDatePrompt(keyDateString) {
     const keyDate = stringToDate(keyDateString);
     const currDate = new Date();
@@ -37,16 +42,19 @@ export function getDatePrompt(keyDateString) {
     return "In " + daysApart + " " + days;
 }
 
+// Gets the day difference between firstDate and secondDate (negative if backwards):
 export function getDaysApart(firstDate, secondDate) {
     return Math.ceil((secondDate.getTime() - firstDate.getTime()) / (1000 * 60 * 60 * 24));
 }
 
+// Returns a new Date with the given number of days added to the given date:
 export function addDays(date, days) {
     const newDate = new Date(date);
     newDate.setDate(newDate.getDate() + days);
     return newDate;
 }
 
+// Determines all subtasks that should be worked on currently:
 export function getCurrentSubtasks(tasks) {
     const result = [];
 
@@ -68,6 +76,7 @@ export function getCurrentSubtasks(tasks) {
     return result;
 }
 
+// Determines the subtask in a task that should be worked on currently (if there is one):
 export function getCurrentSubtask(task) {
     const currDate = new Date();
     const currTime = currDate.getTime();
@@ -75,8 +84,10 @@ export function getCurrentSubtask(task) {
     const taskStartDate = stringToDate(task.startDate);
     const taskEndDate = stringToDate(task.endDate);
     const taskDays = getDaysApart(taskStartDate, taskEndDate);
+    // If the overall task should not be worked on currently, exit:
     if (currTime < taskStartDate.getTime() || currTime >= addDays(taskEndDate, 1).getTime()) return;
 
+    // Determine the next incomplete subtask:
     let nextSubtask;
     let nextSubtaskIndex = -1;
     let totalWeight = 0.0;
@@ -88,8 +99,10 @@ export function getCurrentSubtask(task) {
         }
         totalWeight += subtask.weight;
     }
+    // Exit if all subtasks are completed:
     if (nextSubtaskIndex == -1) return;
 
+    // Using its weight, determine what days the next incomplete subtask should be worked on:
     let startDay = 0;
     let endDay = 0;
     let dayOverflow = 0.0;
@@ -108,8 +121,10 @@ export function getCurrentSubtask(task) {
 
     const startDate = addDays(taskStartDate, startDay);
     const endDate = addDays(taskStartDate, endDay);
+    // If the next incomplete subtask should not be worked on currently, exit:
     if (currTime < startDate.getTime() || currTime >= addDays(endDate, 1).getTime()) return;
 
+    // The next incomplete subtask should be worked on today, so return it:
     return {
         name: nextSubtask.name,
         index: nextSubtaskIndex,
@@ -118,6 +133,7 @@ export function getCurrentSubtask(task) {
     };
 }
 
+// Determines the number of days allocated to each subtask in a task using their weights:
 export function getSubtaskDays(task) {
     const days = [];
 
@@ -152,11 +168,13 @@ export function getSubtaskDays(task) {
     return days;
 }
 
+// Converts date string (DD/MM/YY) to Date object:
 export function stringToDate(dateString) {
     const tokens = dateString.split('/');
     return new Date("20" + tokens[2] + "/" + tokens[1] + "/" + tokens[0]);
 }
 
+// Converts Date object to date string (DD/MM/YY):
 export function dateToString(date) {
     return ("0" + date.getDate()).slice(-2) + "/" + ("0" + (date.getMonth()+1)).slice(-2) + "/" + date.getYear().toString().slice(-2);
 }

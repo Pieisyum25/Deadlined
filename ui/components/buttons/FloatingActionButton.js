@@ -1,6 +1,7 @@
 import { Pressable, StyleSheet, Text } from "react-native";
 
 
+// A button that mimics the Floating Action Button commonly used on Android:
 export default function FloatingActionButton(props) {
     return (
         <Pressable style={styles.container} onPress={props.onPress}>

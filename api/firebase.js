@@ -4,7 +4,10 @@ import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
 import { initTasks } from "../logic/StateViewModel";
 import store from "./store";
 
+// Firebase Model, for handling authentication and the remote database:
 
+
+// Config for firebase api:
 const firebaseConfig = {
   apiKey: "AIzaSyAZoDJzIqQTAVCjMfgdHIwuWquAYNIm6QA",
   authDomain: "deadlined-c1fe0.firebaseapp.com",
@@ -15,12 +18,13 @@ const firebaseConfig = {
   measurementId: "G-XWSZYQBD3G"
 };
 
-// Initialize Firebase
+// Initialize firebase authentication and firestore database:
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth();
 const db = getFirestore(app);
 
 
+// Creates a new user with the given email and password:
 export function registerUser(email, password) {
   createUserWithEmailAndPassword(auth, email, password)
     .then(userCredentials => {
@@ -30,6 +34,7 @@ export function registerUser(email, password) {
     .catch(error => alert(error.message));
 }
 
+// Logs in a user using the given email and password:
 export function loginUser(email, password) {
   signInWithEmailAndPassword(auth, email, password)
   .then(userCredentials => {
@@ -39,6 +44,7 @@ export function loginUser(email, password) {
   .catch(error => alert(error.message));
 }
 
+// Logs out the current user:
 export function logoutUser(navigationCallback) {
   const email = auth.currentUser?.email;
   auth
