@@ -26,7 +26,15 @@ const db = getFirestore(app);
 
 // Returns true if the device is not rooted/jail-broken and the device has a screen lock:
 function securityCheckPassed() {
-  return (!RNIsDeviceRooted.isDeviceRooted() && RNIsDeviceRooted.isDeviceLocked());
+  if (RNIsDeviceRooted.isDeviceRooted()){
+    alert("Login rejected; the device is rooted/jail-broken.");
+    return false;
+  }
+  if (!RNIsDeviceRooted.isDeviceLocked()){
+    alert("Login rejected; the a screen-lock on your device is required.");
+    return false;
+  }
+  return true;
 }
 
 // Creates a new user with the given email and password:
