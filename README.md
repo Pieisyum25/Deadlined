@@ -27,7 +27,7 @@ Technologies:
 - Uses React Native Navigation for navigating between screens.
 
 How to run:
-- Clone the repository with "git clone <repo url>";
+- Clone the repository with "git clone (repo url)";
 - Inside the folder, enter "npm install" to download all the required node modules (requires npm).
 - Once that is done, enter "expo start" to start the development server (requires expo cli).
 - Finally, to open the app, scan the QR code that pops up via the Expo Go app (on Android), or open it in your browser by pressing "w".
